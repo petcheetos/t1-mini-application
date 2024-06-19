@@ -3,7 +3,7 @@ package org.example.clients;
 import java.util.Objects;
 import lombok.extern.log4j.Log4j2;
 import org.example.dto.ApiErrorResponse;
-import org.example.dto.Candidate;
+import org.example.dto.CandidateRequest;
 import org.example.dto.RoleResponse;
 import org.example.dto.StatusRequest;
 import org.example.exception.ApiErrorException;
@@ -55,7 +55,7 @@ public class ApiClient {
             .block();
     }
 
-    public String signUp(Candidate candidate) {
+    public String signUp(CandidateRequest candidate) {
         return webClient
             .post()
             .uri(SIGN_UP)

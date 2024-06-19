@@ -1,7 +1,7 @@
-package org.example;
+package org.example.utils;
 
-public class StringConstant {
-    private StringConstant() {
+public class ConsoleMessages {
+    private ConsoleMessages() {
     }
 
     public static final String INPUT_LAST_NAME = "Введите фамилию: ";

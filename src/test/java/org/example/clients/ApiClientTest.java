@@ -1,9 +1,9 @@
 package org.example.clients;
 
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
-import org.example.dto.Candidate;
+import org.example.dto.CandidateRequest;
 import org.example.dto.RoleResponse;
-import org.example.dto.Status;
+import org.example.models.Status;
 import org.example.dto.StatusRequest;
 import org.example.exception.ApiErrorException;
 import org.junit.jupiter.api.Test;
@@ -66,7 +66,7 @@ public class ApiClientTest {
 
     @Test
     public void testSignUpSuccess() {
-        Candidate candidate = new Candidate("Lastname", "Firstname", "new@example.ru", "role");
+        CandidateRequest candidate = new CandidateRequest("Lastname", "Firstname", "new@example.ru", "role");
 
         stubFor(post(urlEqualTo("/sign-up"))
             .willReturn(aResponse()
@@ -80,7 +80,7 @@ public class ApiClientTest {
 
     @Test
     public void testSignUpClientError() {
-        Candidate candidate = new Candidate("Invalid", "User", "invalid-email", "role");
+        CandidateRequest candidate = new CandidateRequest("Invalid", "User", "invalid-email", "role");
 
         stubFor(post(urlEqualTo("/sign-up"))
             .willReturn(aResponse()

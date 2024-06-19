@@ -2,7 +2,7 @@ package org.example.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public record Candidate(
+public record CandidateRequest(
     @JsonProperty("last_name")
     String lastName,
     @JsonProperty("first_name")

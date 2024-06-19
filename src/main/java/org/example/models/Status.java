@@ -1,4 +1,4 @@
-package org.example.dto;
+package org.example.models;
 
 public enum Status {
     INCREASED("increased");

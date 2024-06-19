@@ -3,28 +3,36 @@ package org.example;
 import java.util.List;
 import java.util.Scanner;
 import org.example.clients.ApiClient;
-import org.example.dto.Candidate;
+import org.example.dto.CandidateRequest;
 import org.example.dto.RoleResponse;
 import org.example.dto.StatusRequest;
 import org.example.encoders.Encoder;
 import org.example.exception.ApiErrorException;
 import org.example.validators.EmailValidator;
 import org.springframework.web.reactive.function.client.WebClient;
-import static org.example.StringConstant.AVAILABLE_ROLES;
-import static org.example.StringConstant.INPUT_CORRECT_EMAIL;
-import static org.example.StringConstant.INPUT_CORRECT_ROLE_NUMBER;
-import static org.example.StringConstant.INPUT_EMAIL;
-import static org.example.StringConstant.INPUT_FIRST_NAME;
-import static org.example.StringConstant.INPUT_LAST_NAME;
-import static org.example.StringConstant.INPUT_ROLE_NUMBER;
-import static org.example.StringConstant.REGISTRATION;
-import static org.example.dto.Status.INCREASED;
+import static org.example.utils.ConsoleMessages.AVAILABLE_ROLES;
+import static org.example.utils.ConsoleMessages.INPUT_CORRECT_EMAIL;
+import static org.example.utils.ConsoleMessages.INPUT_CORRECT_ROLE_NUMBER;
+import static org.example.utils.ConsoleMessages.INPUT_EMAIL;
+import static org.example.utils.ConsoleMessages.INPUT_FIRST_NAME;
+import static org.example.utils.ConsoleMessages.INPUT_LAST_NAME;
+import static org.example.utils.ConsoleMessages.INPUT_ROLE_NUMBER;
+import static org.example.utils.ConsoleMessages.REGISTRATION;
+import static org.example.models.Status.INCREASED;
 
 public class Application {
     private final ApiClient apiClient;
 
     public Application() {
         this.apiClient = new ApiClient(WebClient.builder(), null);
+    }
+
+    public Application(String baseUrl) {
+        this.apiClient = new ApiClient(WebClient.builder(), baseUrl);
+    }
+
+    public Application(ApiClient apiClient) {
+        this.apiClient = apiClient;
     }
 
     @SuppressWarnings("RegexpSinglelineJava")
@@ -58,7 +66,7 @@ public class Application {
             roleIndex = scanner.nextInt() - 1;
         }
         String selectedRole = roles.get(roleIndex);
-        Candidate candidate = new Candidate(lastName, firstName, email, selectedRole);
+        CandidateRequest candidate = new CandidateRequest(lastName, firstName, email, selectedRole);
 
         System.out.printf((REGISTRATION) + "%n", lastName, firstName, email, selectedRole);
 
@@ -73,7 +81,7 @@ public class Application {
         return response.roles();
     }
 
-    private String register(Candidate candidate) {
+    String register(CandidateRequest candidate) {
         try {
             apiClient.signUp(candidate);
             String code = apiClient.getCode(candidate.email());
